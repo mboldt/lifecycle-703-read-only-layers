@@ -20,7 +20,7 @@ fi
 cd "${lifecycledir}"
 git pull
 #go test -v builder_internal_test.go builder.go logger.go analyzer.go  cache.go exporter.go save.go utils.go
-make unit {build,package}-linux-amd64
+make clean unit {build,package}-linux-amd64
 
 # Use this lifecycle in a custom builder
 if [ ! -e "${builderdir}" ]; then
