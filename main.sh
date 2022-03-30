@@ -28,7 +28,9 @@ if [ ! -e "${builderdir}" ]; then
 fi
 cd "${builderdir}"
 git pull
-pack builder create "${builder_off}" --config <(cd "${thisdir}/buildertoml" && go run main.go "${lifecycledir}"/out/*.tgz < "${builderdir}/builder.toml")
+cd "${thisdir}/buildertoml"
+go run main.go "${lifecycledir}"/out/*.tgz < "${builderdir}/builder.toml" > "${workdir}/builder.toml"
+pack builder create "${builder_off}" --config "${workdir}/builder.toml"
 # It's annoying to build and manage multiple builder images just to set an env var for lifecycle feature flag.
 # TODO Add a flag to pack to set lifecycle environment variables.
 docker build --tag "${builder_on}" "${thisdir}/builder"
