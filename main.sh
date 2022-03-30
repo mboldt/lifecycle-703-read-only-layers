@@ -44,7 +44,7 @@ git pull
 
 # Build the app with the custom builder
 appimg="spring-petclinic-rest"
-pack build "${appimg}" \
+time pack build "${appimg}" \
      --verbose \
      --path "${appdir}" \
      --trust-builder \
