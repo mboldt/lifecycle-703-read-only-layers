@@ -45,8 +45,8 @@ type Builder struct {
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Printf("Invalid arguments: %s\n", os.Args)
-		fmt.Printf("Usage: %s <lifecycle-uri>\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Invalid arguments: %s\n", os.Args)
+		fmt.Fprintf(os.Stderr, "Usage: %s <lifecycle-uri>\n", os.Args[0])
 		os.Exit(2)
 	}
 	lifecycleURI := os.Args[1]
