@@ -29,11 +29,11 @@ The [main.sh](main.sh) script builds the modified lifecycle.
 The lifecycle code uses an environment variable `CNB_LIFECYCLE_RO_LAYERS` as a feature flag to enable the read-only layers detection.
 It also measures and prints the duration of these checks to see how long they take.
 
-For a builder, it uses paketo-buildpacks/tiny-builder as a base, and injects the modified lifecycle.
+For a builder, it uses [paketo-buildpacks/tiny-builder](https://github.com/paketo-buildpacks/tiny-builder) as a base, and injects the modified lifecycle.
 It creates two versions of the builder: one with the feature flag set, and one without it.
 If we want to run end-to-end comparisons, they are both available.
 
-It uses spring-petclinic/spring-petclinic-rest as the target application.
+It uses [spring-petclinic/spring-petclinic-rest](https://github.com/spring-petclinic/spring-petclinic-rest) as the target application.
 
 ## Results
 
