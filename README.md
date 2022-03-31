@@ -40,16 +40,18 @@ It uses [spring-petclinic/spring-petclinic-rest](https://github.com/spring-petcl
 Running this experiment, the read-only layers check takes about 14s total time (1.7--1.9 seconds after each of 8 buildpacks), of a total build time of 27 seconds.
 This nearly doubles the build time.
 
-Perhaps there is a more efficient change detection mechanism, like a filesystem watcher.
+It did emit warnings about some of the buildpacks modifying layers which they did not create, but they were false positives.
+The restorer restored these layers, and the modifying buildpacks actually do "own" them.
+When building the image with `--clear-cache`, these warnings do not show up.
 
-It did emit warnings about some of the buildpacks modifying layers which they did not create:
+The current detection just looks for changes to existing layer directories.
+We could, instead, count how many times a layer has changed post-restorer.
+This improvement in detection would not greatly impact performance, so we do not plan to implement it for this spike.
 
-```
-Warning: buildpack paketo-buildpacks/bellsoft-liberica changed layer paketo-buildpacks_bellsoft-liberica, which it did not create
-Warning: buildpack paketo-buildpacks/syft changed layer paketo-buildpacks_syft, which it did not create
-Warning: buildpack paketo-buildpacks/maven changed layer paketo-buildpacks_maven, which it did not create
-Warning: buildpack paketo-buildpacks/spring-boot changed layer paketo-buildpacks_spring-boot, which it did not create
-```
+## Discussion and Next Steps
 
-These look like they might be false-positives, i.e., the restorer recovered these layers, and the modifying buildpacks actually do "own" them.
-This may be a major complication in detecting and enforcing read-only layers.
+The approach of "hash each layer after each buildpack runs to detect changes" seems too costly for practical use.
+
+Perhaps there is a more efficient change detection mechanism.
+One thought is to watch the filesystem for changes.
+We will give this method a try, using a library like [fsnotify](https://github.com/fsnotify/fsnotify).
